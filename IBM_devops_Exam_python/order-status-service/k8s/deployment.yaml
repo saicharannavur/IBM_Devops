@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-status
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: order-status
+  template:
+    metadata:
+      labels:
+        app: order-status
+    spec:
+      containers:
+      - name: order-status
+        image: saicharan2002/order-status-image:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-status-service
+spec:
+  selector:
+    app: order-status
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

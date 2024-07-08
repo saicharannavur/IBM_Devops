@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-cancelling
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: order-cancelling
+  template:
+    metadata:
+      labels:
+        app: order-cancelling
+    spec:
+      containers:
+      - name: order-cancelling
+        image: saicharan2002/order-cancellation-image:v1
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-cancelling-service
+spec:
+  selector:
+    app: order-cancelling
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

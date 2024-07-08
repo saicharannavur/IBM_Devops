@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dish-search
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dish-search
+  template:
+    metadata:
+      labels:
+        app: dish-search
+    spec:
+      containers:
+      - name: dish-search
+        image: saicharan2002/dish-search-image:v1
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dish-search-service
+spec:
+  selector:
+    app: dish-search
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
